@@ -204,6 +204,7 @@ class SecondFragment : Fragment(), SensorEventListener {
 
 
     // Image au format ImageProxy à Bitmap
+    // https://www.androidbugfix.com/2022/01/android-camerax-image-capture.html
     private fun imageProxyToBitmap (image: ImageProxy): Bitmap {
         val planeProxy = image.planes[0]
         val buffer: ByteBuffer = planeProxy.buffer
@@ -215,6 +216,7 @@ class SecondFragment : Fragment(), SensorEventListener {
 
 
     // Image au format Bitmap à String Base64
+    // https://stackoverflow.com/questions/9224056/android-bitmap-to-base64-string
     private fun encodeImage(bm: Bitmap): String? {
         val baos = ByteArrayOutputStream()
         bm.compress(Bitmap.CompressFormat.JPEG, 60, baos)
