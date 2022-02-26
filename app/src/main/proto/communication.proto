@@ -1,0 +1,45 @@
+syntax = "proto3" ;
+
+
+
+option java_multiple_files = true ;
+option java_package = "com.example.WeWatchYou" ;
+option objc_class_prefix = 'CA' ;
+
+package communication ;
+
+
+
+// The greeting service definition.
+service Communication {
+  // Sends a ...
+  rpc SendComm (RequestComm) returns (ReplyComm) {}
+}
+
+
+
+// The request message containing the user's name.
+message RequestComm {
+  string check_connexion = 1 ;
+  string code_etudiant = 2 ;
+  string type_message = 3 ;
+  string msg_accel = 4 ;
+  string img = 5 ;
+  string dateTime = 6 ;
+}
+
+
+
+// The response message containing the greetings
+message ReplyComm {
+  string check_connexion = 1 ;
+  string code_etudiant = 2 ;
+  string type_message = 3 ;
+  string msg_accel = 4 ;
+  string img = 5 ;
+  string dateTime = 6 ;
+}
+
+
+
+
