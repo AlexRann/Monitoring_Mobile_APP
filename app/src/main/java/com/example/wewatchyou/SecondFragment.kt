@@ -126,15 +126,28 @@ class SecondFragment : Fragment(), SensorEventListener {
                     "Bas" else "Haut"
             }
 
-            var seuil_gauche_droite = 0.5
-            if ( (accel[0] != initial_position_mean[0] && abs(accel[0]-initial_position_mean[0]) > seuil_gauche_droite) ) {
+            var seuil_droite = 0.5
+            var seuil_gauche = 0.8
+            if ( (accel[0] != initial_position_mean[0] && abs(accel[0]-initial_position_mean[0]) > seuil_droite) ) {
+
                 // Si c'est différent de "Face", c'est qu'il y a eu détection de mouvement Haut ou Bas
-                if ( globalMessage_mvt != "Face" )
-                    globalMessage_mvt += if ( (accel[0] != initial_position_mean[0] && accel[0]-initial_position_mean[0] > seuil_gauche_droite) )
-                        "-Droite" else "-Gauche"
-                else
-                    globalMessage_mvt = if ( (accel[0] != initial_position_mean[0] && accel[0]-initial_position_mean[0] > seuil_gauche_droite) )
-                        "Droite" else "Gauche"
+                if ( globalMessage_mvt != "Face" ) {
+                    if ( (accel[0] != initial_position_mean[0] && accel[0]-initial_position_mean[0] > seuil_droite) )
+                        globalMessage_mvt += "-Droite"
+                    else if ( (accel[0] != initial_position_mean[0] && accel[0]-initial_position_mean[0] < seuil_gauche) )
+                        globalMessage_mvt += "-Gauche"
+                    //globalMessage_mvt += if ( (accel[0] != initial_position_mean[0] && accel[0]-initial_position_mean[0] > seuil_gauche_droite) )
+                    //"-Droite" else "-Gauche"
+                }
+
+                else {
+                    if ( (accel[0] != initial_position_mean[0] && accel[0]-initial_position_mean[0] > seuil_droite) )
+                        globalMessage_mvt = "Droite"
+                    else if ( (accel[0] != initial_position_mean[0] && accel[0]-initial_position_mean[0] < seuil_gauche) )
+                        globalMessage_mvt = "Gauche"
+                    //globalMessage_mvt = if ( (accel[0] != initial_position_mean[0] && accel[0]-initial_position_mean[0] > seuil_gauche_droite) )
+                    //"Droite" else "Gauche"
+                }
             }
 
             if ( globalPermCam and globalConnected )

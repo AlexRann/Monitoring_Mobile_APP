@@ -49,6 +49,9 @@ class PreExamFragment : Fragment(), SensorEventListener {
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         _binding = PreExamFragmentBinding.inflate(inflater, container, false)
+
+        setUpSensorStuff()
+
         return binding.root
     }
 
@@ -99,7 +102,6 @@ class PreExamFragment : Fragment(), SensorEventListener {
             Snackbar.make(view, "Fixez l'écran de votre PC", Snackbar.LENGTH_LONG).setAction("Action", null).show()
 
             i_accel = 0
-            setUpSensorStuff()
         }
 
         // Activer le test photo bureau
