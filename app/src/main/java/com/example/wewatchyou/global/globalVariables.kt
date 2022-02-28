@@ -54,8 +54,9 @@ data class retConnexionCS ( var connexionPossible : Boolean, var bonCodeEtudiant
  *  nb_command (Int) : le type d'envoie au serveur que l'on souhaite faire
  *
  * Return
- *  ret (Int) : renvoie une valeur qui dépend si l'envoie d'un signal au serveur a été possible ou pas
- *              0 : envoie possible, -1, envoie pas possible
+ *  ret0 (Boolean) : renvoi une valeur qui dépend si l'envoie d'un signal au serveur a été possible ou pas
+ *              true : envoie possible, false, envoie pas possible
+ *  ret1 (String) : envoi possible au serveur mais si le code étudiant n'existe pas, alors "bad", sinon "good"
  * */
 @RequiresApi(Build.VERSION_CODES.O)
 fun communication_cs (IP : String, port : Int, nb_command : Int ) : retConnexionCS {
