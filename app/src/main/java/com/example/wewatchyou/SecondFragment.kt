@@ -92,12 +92,15 @@ class SecondFragment : Fragment(), SensorEventListener {
        ==================================================== ACCELEROMETRE ===================================================== */
 
     // https://www.youtube.com/watch?v=xcsuDDQHrLo
+    // ======================================= DEBUT, REPRISE DU CODE =======================================
     private fun setUpSensorStuff () {
         sensorManager = layoutInflater.context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also {
+            // ============================== DEBUT, MODIFICATION APPORTEE ==============================
+            // Modification du code repris afin l'adapter à un Fragment
             sensorManager.registerListener( this, it, 1000000 ) // Approx. every 1 seconds
-            //sensorManager.registerListener( this, it, SensorManager.SENSOR_DELAY_NORMAL )
+            // ============================== FIN, MODIFICATION APPORTEE ==============================
         }
     }
 
@@ -108,6 +111,7 @@ class SecondFragment : Fragment(), SensorEventListener {
         if ( event?.sensor?.type == Sensor.TYPE_ACCELEROMETER ) {
             //findViewById<TextView>(R.id.id_text_wifi_state).text = accel[0] + ", " + accel[1] + ", " + accel[2]
 
+            // ============================== DEBUT, MODIFICATION APPORTEE ==============================
             accel [0] = event.values[0]
             accel [1] = event.values[1]
             accel [2] = event.values[2]
@@ -155,6 +159,7 @@ class SecondFragment : Fragment(), SensorEventListener {
                 takePhoto()
                 communication_cs(globalIP, globalPort.toInt(), 0)
             }
+            // ============================== FIN, MODIFICATION APPORTEE ==============================
         }
     }
 
@@ -162,6 +167,7 @@ class SecondFragment : Fragment(), SensorEventListener {
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
     }
+    // ======================================= FIN, REPRISE DU CODE =======================================
 
     /* ==================================================== ACCELEROMETRE =====================================================
        ========================================================================================================================
@@ -177,6 +183,7 @@ class SecondFragment : Fragment(), SensorEventListener {
        ================================================== FRAGMENT ============================================================ */
 
     // https://fr.acervolima.com/comment-creer-une-camera-personnalisee-a-l-aide-de-camerax-sous-android/
+    // ======================================= DEBUT, REPRISE DU CODE =======================================
     private fun takePhoto() {
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCapture ?: return
@@ -293,6 +300,7 @@ class SecondFragment : Fragment(), SensorEventListener {
             }
         }, ContextCompat.getMainExecutor( requireContext()) )
     }
+    // ======================================= FIN, REPRISE DU CODE =======================================
 
 /* ====================================================== FRAGMENT ========================================================
    ======================================================= CAMERA =========================================================

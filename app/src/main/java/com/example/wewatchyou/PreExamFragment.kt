@@ -104,6 +104,7 @@ class PreExamFragment : Fragment(), SensorEventListener {
             i_accel = 0
         }
 
+// ======================================= DEBUT, REPRISE DU CODE =======================================
         // Activer le test photo bureau
         binding.buttonPhotoBureau.setOnClickListener {
             val takePictureIntent = Intent( MediaStore.ACTION_IMAGE_CAPTURE )
@@ -113,9 +114,9 @@ class PreExamFragment : Fragment(), SensorEventListener {
                 startActivityForResult(takePictureIntent, REQUEST_CODE)
             }
         }
-
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
+// ======================================= FIN, REPRISE DU CODE =======================================
 
 
 
@@ -124,11 +125,15 @@ class PreExamFragment : Fragment(), SensorEventListener {
    ==================================================== ACCELEROMETRE ===================================================== */
 
     // https://www.youtube.com/watch?v=xcsuDDQHrLo
+// ======================================= DEBUT, REPRISE DU CODE =======================================
     private fun setUpSensorStuff () {
+        // ============================== DEBUT, MODIFICATION APPORTEE ==============================
+        // Modification du code repris afin l'adapter à un Fragment
         sensorManager = layoutInflater.context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        // ============================== FIN, MODIFICATION APPORTEE ==============================
 
         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also {
-            sensorManager.registerListener( this, it, SensorManager.SENSOR_DELAY_NORMAL ) // Approx. every 1 seconds
+            sensorManager.registerListener( this, it, SensorManager.SENSOR_DELAY_NORMAL )
         }
     }
 
@@ -138,6 +143,7 @@ class PreExamFragment : Fragment(), SensorEventListener {
         if ( event?.sensor?.type == Sensor.TYPE_ACCELEROMETER ) {
             //findViewById<TextView>(R.id.id_text_wifi_state).text = accel[0] + ", " + accel[1] + ", " + accel[2]
 
+            // ============================== DEBUT, MODIFICATION APPORTEE ==============================
             if ( i_accel < 5 ) {
                 // On demande à l'élève de fixer son écran pendant 5 secondes
                 // ça va nous permettre de connaître sa position initiale
@@ -159,6 +165,7 @@ class PreExamFragment : Fragment(), SensorEventListener {
                 initial_position_mean[1] /= initial_position.size.toFloat()
                 initial_position_mean[2] /= initial_position.size.toFloat()
             }
+            // ============================== FIN, MODIFICATION APPORTEE ==============================
         }
     }
 
@@ -166,6 +173,7 @@ class PreExamFragment : Fragment(), SensorEventListener {
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
     }
+// ======================================= FIN, REPRISE DU CODE =======================================
 
     /* ==================================================== ACCELEROMETRE =====================================================
        ========================================================================================================================
@@ -180,21 +188,27 @@ class PreExamFragment : Fragment(), SensorEventListener {
        =================================================== CAMERA =============================================================
        ================================================== FRAGMENT ============================================================ */
 
+    // https://www.youtube.com/watch?v=DPHkhamDoyc
     @RequiresApi(Build.VERSION_CODES.O)
+    // ======================================= DEBUT, REPRISE DU CODE =======================================
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if ( requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK ) {
             val takenImage = data?.extras?.get("data") as Bitmap
 
+// ============================== DEBUT, MODIFICATION APPORTEE ==============================
+            // On récupère la photo mais on ne la stocke pas sur le portable, on l'envoie au serveur
             globalImageBureau = true
 
             globalImg = encodeImage(takenImage).toString()
             communication_cs(globalIP, globalPort.toInt(), 1)
+// ============================== FIN, MODIFICATION APPORTEE ==============================
         }
         else {
             super.onActivityResult(requestCode, resultCode, data)
         }
     }
 
+    // https://stackoverflow.com/questions/9224056/android-bitmap-to-base64-string
     // Image au format Bitmap à String Base64
     private fun encodeImage(bm: Bitmap): String? {
         val baos = ByteArrayOutputStream()
@@ -202,6 +216,7 @@ class PreExamFragment : Fragment(), SensorEventListener {
         val b = baos.toByteArray()
         return Base64.encodeToString(b, Base64.NO_WRAP)
     }
+    // ======================================= FIN, REPRISE DU CODE =======================================
 
 /* ====================================================== FRAGMENT ========================================================
    ======================================================= CAMERA =========================================================

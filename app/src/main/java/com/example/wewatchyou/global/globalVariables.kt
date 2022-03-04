@@ -58,6 +58,7 @@ data class retConnexionCS ( var connexionPossible : Boolean, var bonCodeEtudiant
  *              true : envoie possible, false, envoie pas possible
  *  ret1 (String) : envoi possible au serveur mais si le code étudiant n'existe pas, alors "bad", sinon "good"
  * */
+// Reprise de la structure sur le site : https://medium.com/swlh/a-beginners-guide-to-grpc-in-android-61cc56a423f7
 @RequiresApi(Build.VERSION_CODES.O)
 fun communication_cs (IP : String, port : Int, nb_command : Int ) : retConnexionCS {
     var ret0 = false
@@ -71,6 +72,7 @@ fun communication_cs (IP : String, port : Int, nb_command : Int ) : retConnexion
         }
 
         try  {
+            // ======================================= DEBUT, REPRISE DU CODE =======================================
             channel = ManagedChannelBuilder.forAddress(IP, port)
                 .usePlaintext()
                 .build()
@@ -79,6 +81,7 @@ fun communication_cs (IP : String, port : Int, nb_command : Int ) : retConnexion
 
             val stub : CommunicationGrpc.CommunicationBlockingStub = CommunicationGrpc
                 .newBlockingStub(channel)
+            // ============================== DEBUT, MODIFICATION APPORTEE ==============================
                 .withDeadlineAfter(2, TimeUnit.SECONDS)
 
             val request : RequestComm = RequestComm.newBuilder()
@@ -88,8 +91,10 @@ fun communication_cs (IP : String, port : Int, nb_command : Int ) : retConnexion
                 .setImg( globalImg )
                 .setDateTime( LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-YYYY_HH-mm-ss")).toString() )
                 .build()
+            // ============================== DEBUT, MODIFICATION APPORTEE ==============================
 
             val reply : ReplyComm = stub.sendComm(request)
+            // ======================================= FIN, REPRISE DU CODE =======================================
             ret0 = true
             ret1 = reply.checkConnexion
 
